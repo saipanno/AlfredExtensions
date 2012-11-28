@@ -7,8 +7,7 @@
 	<key>category</key>
 	<string>SCRIPTS</string>
 	<key>command</key>
-    <string>
-DEVICE=$(networksetup -listnetworkserviceorder | awk '
+    <string>DEVICE=$(networksetup -listnetworkserviceorder | awk '
     BEGIN {
         "netstat -rn | grep default " | getline var
         split(var, ARRAY, " ")
@@ -18,6 +17,8 @@ DEVICE=$(networksetup -listnetworkserviceorder | awk '
 
     END { print NAME }
 ')
+
+dscacheutil -flushcache
 case "{query}" in
     "114")
         networksetup -setdnsservers ${DEVICE%,*} 114.114.114.114 114.114.115.115
