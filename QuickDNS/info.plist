@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>action</key>
+	<false/>
+	<key>category</key>
+	<string>SCRIPTS</string>
+	<key>command</key>
+	<string>
+# Find the device name
+DEVICE=$(networksetup -listnetworkserviceorder | awk '
+    BEGIN {
+        "netstat -rn | grep default " | getline var
+        split(var, ARRAY, " ")
+    }
+
+    { if ($5 ~ ARRAY[6]) { NAME=$3 } }
+
+    END { print NAME }
+')
+# Change DNS server by query.
+case "{query}" in
+    "114")
+        networksetup -setdnsservers ${DEVICE%,*} 114.114.114.114 114.114.115.115
+        echo "Using 114 Public DNS on your ${DEVICE%,*} connection."                                                                                                                 
+    ;;
+    "v2ex")
+        networksetup -setdnsservers ${DEVICE%,*} 199.91.73.222 178.79.131.110
+        echo "Using V2EX Public DNS on your ${DEVICE%,*} connection."                                                                                                                 
+    ;;
+    "google")
+        networksetup -setdnsservers ${DEVICE%,*} 8.8.8.8, 8.8.4.4
+    echo "Using Google Public DNS on your ${DEVICE%,*} connection."
+    ;;
+    "opendns")
+        networksetup -setdnsservers ${DEVICE%,*} 208.67.222.222 208.67.220.220
+        echo "Using OpenDNS on your ${DEVICE%,*} connection."
+    ;;
+    *)
+        networksetup -setdnsservers ${DEVICE%,*} empty
+        echo "Using Default DNS on your ${DEVICE%,*} connection."
+    ;;
+esac
+	</string>
+	<key>disabled</key>
+	<false/>
+	<key>escapequery</key>
+	<false/>
+	<key>escapequerybackquotes</key>
+	<false/>
+	<key>escapequerybrackets</key>
+	<false/>
+	<key>escapequeryquotes</key>
+	<false/>
+	<key>escapequerysemicolons</key>
+	<false/>
+	<key>growloutput</key>
+	<true/>
+	<key>growloutputsticky</key>
+	<false/>
+	<key>keyword</key>
+	<string>dns</string>
+	<key>logging</key>
+	<false/>
+	<key>parameter</key>
+	<integer>3</integer>
+	<key>silent</key>
+	<true/>
+	<key>subtitle</key>
+	<string>Quick setup DNS setting. (support 114.V2EX.Google.OpenDNS and default.)</string>
+	<key>title</key>
+	<string>QuickDNS</string>
+</dict>
+</plist>
