@@ -7,8 +7,7 @@
 	<key>category</key>
 	<string>SCRIPTS</string>
 	<key>command</key>
-	<string>
-# Find the device name
+    <string>
 DEVICE=$(networksetup -listnetworkserviceorder | awk '
     BEGIN {
         "netstat -rn | grep default " | getline var
@@ -19,7 +18,6 @@ DEVICE=$(networksetup -listnetworkserviceorder | awk '
 
     END { print NAME }
 ')
-# Change DNS server by query.
 case "{query}" in
     "114")
         networksetup -setdnsservers ${DEVICE%,*} 114.114.114.114 114.114.115.115
@@ -30,8 +28,8 @@ case "{query}" in
         echo "Using V2EX Public DNS on your ${DEVICE%,*} connection."                                                                                                                 
     ;;
     "google")
-        networksetup -setdnsservers ${DEVICE%,*} 8.8.8.8, 8.8.4.4
-    echo "Using Google Public DNS on your ${DEVICE%,*} connection."
+        networksetup -setdnsservers ${DEVICE%,*} 8.8.8.8 8.8.4.4
+        echo "Using Google Public DNS on your ${DEVICE%,*} connection."
     ;;
     "opendns")
         networksetup -setdnsservers ${DEVICE%,*} 208.67.222.222 208.67.220.220
@@ -68,7 +66,7 @@ esac
 	<key>silent</key>
 	<true/>
 	<key>subtitle</key>
-	<string>Quick setup DNS setting. (support 114.V2EX.Google.OpenDNS and default.)</string>
+	<string>Quick setup DNS setting. (support 114.V2EX.Google.OpenDNS and default)</string>
 	<key>title</key>
 	<string>QuickDNS</string>
 </dict>
